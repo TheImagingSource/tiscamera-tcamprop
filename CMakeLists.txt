@@ -29,6 +29,7 @@ set(TCAMPROP_INSTALL_INCLUDE "${CMAKE_INSTALL_PREFIX}/include" CACHE PATH "heade
 
 add_subdirectory(src)
 
+add_library( tcam::tcamprop ALIAS tcamprop )
 
 
 include(CPackComponent)
