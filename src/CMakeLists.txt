@@ -17,12 +17,14 @@ find_package(GObject   REQUIRED QUIET)
 find_package(GLIB2     REQUIRED QUIET)
 find_package(GObjectIntrospection REQUIRED QUIET)
 
-include_directories(${GLIB2_INCLUDE_DIR})
-include_directories(${GObject_INCLUDE_DIR})
 # not usable with module
 # include_directories(${INTROSPECTION_INCLUDE_DIR})
 
 add_library(tcamprop SHARED tcamprop.c)
+
+
+target_include_directories( tcamprop PUBLIC ${GLIB2_INCLUDE_DIR})
+target_include_directories( tcamprop PUBLIC ${GObject_INCLUDE_DIR})
 
 # target_link_libraries(tcamprop tcam)
 target_link_libraries(tcamprop ${GLIB2_LIBRARIES})
