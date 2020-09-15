@@ -20,7 +20,7 @@ find_package(GObjectIntrospection REQUIRED QUIET)
 # not usable with module
 # include_directories(${INTROSPECTION_INCLUDE_DIR})
 
-add_library(tcamprop SHARED tcamprop.c)
+add_library(tcamprop SHARED tcamprop.c tcamprop.h)
 
 target_include_directories( tcamprop PUBLIC ${GLIB2_INCLUDE_DIR})
 target_include_directories( tcamprop PUBLIC ${GObject_INCLUDE_DIR})
