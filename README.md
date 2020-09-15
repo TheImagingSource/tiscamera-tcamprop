@@ -1,12 +1,16 @@
 # tcamprop
 
-Linux introspection interface
+Linux gobject introspection interface.
+
+This is identical to the tcamprop API in tiscamera.
+
+Use this for your own libraries or for TIS closed source tools.
 
 ## Build
 
 ### Dependencies
 
-Dependency versions are based on reference system
+Dependency versions are based on the current reference system (Ubuntu 18.04 LTS)
 
 libglib2.0-0 (>= 2.48.2)
 libgirepository-1.0-1 (>= 1.46.0)
