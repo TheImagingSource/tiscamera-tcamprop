@@ -14,6 +14,7 @@ Dependency versions are based on the current reference system (Ubuntu 18.04 LTS)
 
 libglib2.0-0 (>= 2.48.2)
 libgirepository-1.0-1 (>= 1.46.0)
+libgirepository1.0-dev
 
 ### Compile
 
