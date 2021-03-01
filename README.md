@@ -23,15 +23,33 @@ libgirepository1.0-dev
     cd build
     cmake ..
     make
-    make package
+
+
+    make install
+
+    or
+
+    sudo apt install tiscamera-tcamprop
 ```
+
+## Remove
+
+```
+    make uninstall
+
+    or
+
+    sudo apt remove tiscamera-tcamprop
+```
+
+## Replacement
+
+tiscamera-tcamprop and tiscamera provide the tcamprop interface.
+Installing the tiscamera debian package will automatically
+remove installed tiscamera-tcamprop packages.
 
 ## License
 
 All files in this project have to be considered open source under the Apache 2.0 license.
 
 New files have to contain the apache 2.0 license header
-
-## Missing
-
-Uinstall
