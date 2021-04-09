@@ -43,14 +43,14 @@ configure_file(
 
 # create target uninstall to deinstall tiscamera
 # if tiscamera is a subproject/module
-# create uninstall-tiscamera instead
-if (TARGET uninstall)
-  add_custom_target(uninstall-tiscamera
-    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-else (TARGET uninstall)
+# create uninstall-tcamprop instead
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-endif (TARGET uninstall)
+else()
+  add_custom_target(uninstall-tcamprop
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
 
 include(CPackComponent)
 
