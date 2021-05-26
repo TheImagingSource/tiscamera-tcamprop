@@ -16,6 +16,10 @@ libglib2.0-0 (>= 2.48.2)
 libgirepository-1.0-1 (>= 1.46.0)
 libgirepository1.0-dev
 
+To install all compilation dependencies, execute:
+
+    sudo apt install libglib2.0-dev libgirepository1.0-dev
+
 ### Compile
 
 ```
@@ -23,22 +27,13 @@ libgirepository1.0-dev
     cd build
     cmake ..
     make
-
-
-    make install
-
-    or
-
-    sudo apt install tiscamera-tcamprop
+    make package
+    sudo apt install ./tiscamera-tcamprop*.deb
 ```
 
 ## Remove
 
 ```
-    make uninstall
-
-    or
-
     sudo apt remove tiscamera-tcamprop
 ```
 
