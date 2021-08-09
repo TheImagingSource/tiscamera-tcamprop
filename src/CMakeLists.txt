@@ -17,17 +17,13 @@ find_package(GObject   REQUIRED QUIET)
 find_package(GLIB2     REQUIRED QUIET)
 find_package(GObjectIntrospection REQUIRED QUIET)
 
-# not usable with module
-# include_directories(${INTROSPECTION_INCLUDE_DIR})
-
 add_library(tcamprop SHARED tcamprop.c tcamprop.h)
 
 target_include_directories( tcamprop PUBLIC ${GLIB2_INCLUDE_DIR})
 target_include_directories( tcamprop PUBLIC ${GObject_INCLUDE_DIR})
 
-target_include_directories(tcamprop PRIVATE "${CMAKE_CURRENT_DIRECTORY}")
+target_include_directories(tcamprop PUBLIC "${CMAKE_CURRENT_DIRECTORY}")
 
-# target_link_libraries(tcamprop tcam)
 target_link_libraries(tcamprop ${GLIB2_LIBRARIES})
 target_link_libraries(tcamprop ${GObject_LIBRARIES})
 target_link_libraries(tcamprop ${INTROSPECTION_LIBS})
@@ -38,8 +34,6 @@ set(TCAM_GI_API_VERSION "0.1" CACHE STRING "Version Number for Gobject Introspec
 
 set_property(TARGET tcamprop PROPERTY VERSION ${TCAM_GI_API_VERSION})
 set_property(TARGET tcamprop PROPERTY SOVERSION ${TCAM_GI_API_VERSION})
-
-#add_custom_target(tcam-0.1-gir tcam-gobject)
 
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
@@ -59,8 +53,6 @@ add_custom_command(
   --output="${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
   )
 
-#add_dependencies(create_gir tcam-gobject)
-
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.typelib"
   DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
@@ -71,8 +63,6 @@ add_custom_command(
   "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
   -o "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.typelib"
   )
-
-#add_dependencies(create_typelib create_gir)
 
 add_custom_target(create_gobject ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.typelib)
 
