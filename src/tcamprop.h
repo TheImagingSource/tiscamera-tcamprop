@@ -39,7 +39,7 @@ gboolean tcam_prop_get_tcam_property (TcamProp* self,
                                       GValue* group);
 
 GSList* tcam_prop_get_tcam_menu_entries (TcamProp* self,
-                                         const char* name);
+                                         const char* menu_name);
 
 gboolean tcam_prop_set_tcam_property (TcamProp* self,
                                       const gchar* name,

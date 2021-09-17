@@ -144,12 +144,12 @@ gboolean tcam_prop_get_tcam_property (TcamProp* self,
 /**
  * tcam_prop_get_tcam_menu_entries:
  * @self: a #TcamProp
- * @name: a #char* identifying the menu name
+ * @menu_name: a #char* identifying the menu name
  *
  * Returns: (element-type utf8) (transfer full): a #GSList
  */
 GSList* tcam_prop_get_tcam_menu_entries (TcamProp* self,
-                                         const char* name)
+                                         const char* menu_name)
 {
     GSList* ret = NULL;
     TcamPropInterface* iface;
@@ -161,7 +161,7 @@ GSList* tcam_prop_get_tcam_menu_entries (TcamProp* self,
 
     if (iface->get_tcam_menu_entries)
     {
-	    ret = iface->get_tcam_menu_entries (self, name);
+	    ret = iface->get_tcam_menu_entries (self, menu_name);
     }
 
     return ret;

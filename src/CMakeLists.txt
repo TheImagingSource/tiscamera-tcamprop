@@ -17,7 +17,14 @@ find_package(GObject   REQUIRED QUIET)
 find_package(GLIB2     REQUIRED QUIET)
 find_package(GObjectIntrospection REQUIRED QUIET)
 
-add_library(tcamprop SHARED tcamprop.c tcamprop.h)
+add_library(tcamprop SHARED
+    Tcam-0.1.h
+    Tcam-1.0.h
+    tcamprop.c
+    tcamprop.h
+    tcamprop-1.0-impl.h
+    tcamprop-1.0-impl.c
+)
 
 target_include_directories( tcamprop PUBLIC ${GLIB2_INCLUDE_DIR})
 target_include_directories( tcamprop PUBLIC ${GObject_INCLUDE_DIR})
@@ -30,10 +37,19 @@ target_link_libraries(tcamprop ${INTROSPECTION_LIBS})
 
 
 # version number for gobject introspection API
-set(TCAM_GI_API_VERSION "0.1" CACHE STRING "Version Number for Gobject Introspection API")
+set(TCAM_GI_API_VERSION "1.0" CACHE STRING "Version Number for Gobject Introspection API")
 
 set_property(TARGET tcamprop PROPERTY VERSION ${TCAM_GI_API_VERSION})
 set_property(TARGET tcamprop PROPERTY SOVERSION ${TCAM_GI_API_VERSION})
+
+# projects like tiscamera
+# might use a different output directory
+if (CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+  set(tcamprop_dir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+else ()
+  set(tcamprop_dir ${CMAKE_CURRENT_BINARY_DIR})
+endif (CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+
 
 add_custom_command(
   OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
@@ -41,7 +57,7 @@ add_custom_command(
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   COMMAND
   ${INTROSPECTION_SCANNER}
-  tcamprop.c tcamprop.h Tcam-${TCAM_GI_API_VERSION}.h
+  tcamprop.c tcamprop.h Tcam-${TCAM_GI_API_VERSION}.h Tcam-1.0.h tcamprop-1.0-impl.h tcamprop-1.0-impl.c
   --namespace=Tcam
   --nsversion=${TCAM_GI_API_VERSION}
   --warn-all
@@ -49,7 +65,7 @@ add_custom_command(
   --include=GObject-2.0
   -I${CMAKE_CURRENT_SOURCE_DIR}
   --pkg=gobject-2.0
-  --library=tcamprop -L${CMAKE_CURRENT_BINARY_DIR}
+  --library=tcamprop -L${tcamprop_dir}
   --output="${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir"
   )
 
