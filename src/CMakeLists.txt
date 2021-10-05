@@ -18,12 +18,10 @@ find_package(GLIB2     REQUIRED QUIET)
 find_package(GObjectIntrospection REQUIRED QUIET)
 
 add_library(tcamprop SHARED
-    Tcam-0.1.h
-    Tcam-1.0.h
-    tcamprop.c
-    tcamprop.h
-    tcamprop-1.0-impl.h
-    tcamprop-1.0-impl.c
+    
+    "Tcam-1.0.h"
+    "tcam-property-1.0.h"
+    "tcam-property-1.0.c"
 )
 
 target_include_directories( tcamprop PUBLIC ${GLIB2_INCLUDE_DIR})
@@ -57,7 +55,7 @@ add_custom_command(
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   COMMAND
   ${INTROSPECTION_SCANNER}
-  tcamprop.c tcamprop.h Tcam-${TCAM_GI_API_VERSION}.h Tcam-1.0.h tcamprop-1.0-impl.h tcamprop-1.0-impl.c
+  Tcam-1.0.h tcam-property-1.0.h tcam-property-1.0.c
   --namespace=Tcam
   --nsversion=${TCAM_GI_API_VERSION}
   --warn-all
@@ -123,6 +121,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.gir
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Tcam-${TCAM_GI_API_VERSION}.typelib
   DESTINATION ${TCAMPROP_INSTALL_TYPELIB}
   COMPONENT tcam-introspection)
-install(FILES tcamprop.h Tcam-${TCAM_GI_API_VERSION}.h
+install(FILES tcam-property-1.0.h Tcam-${TCAM_GI_API_VERSION}.h
   DESTINATION ${TCAMPROP_INSTALL_INCLUDE}
   COMPONENT tcam-introspection)

@@ -34,6 +34,7 @@ typedef enum {
     TCAM_ERROR_NO_DEVICE_OPEN               = 7,
     TCAM_ERROR_DEVICE_LOST                  = 8,
     TCAM_ERROR_PARAMETER_NULL               = 9,
+    TCAM_ERROR_PROPERTY_DEFAULT_NOT_AVAILABLE = 10,
 } TcamError;
 
 typedef enum {
@@ -64,105 +65,123 @@ typedef enum {
     TCAM_PROPERTY_FLOATREPRESENTATION_PURENUMBER = 2,
 } TcamPropertyFloatRepresentation;
 
-#define TCAM_TYPE_PROPBASE tcam_prop_base_get_type()
-G_DECLARE_INTERFACE( TcamPropBase, tcam_prop_base, TCAM, PROPBASE, GObject )
+#define TCAM_TYPE_PROPERTY_BASE tcam_property_base_get_type()
+G_DECLARE_INTERFACE( TcamPropertyBase, tcam_property_base, TCAM, PROPERTY_BASE, GObject )
 
-struct _TcamPropBaseInterface
+struct _TcamPropertyBaseInterface
 {
     GTypeInterface parent_interface;
 
-    const gchar* (*get_name)(TcamPropBase* self);
-    const gchar* (*get_display_name)(TcamPropBase* self);
-    const gchar* (*get_description)(TcamPropBase* self);
-    const gchar* (*get_category)(TcamPropBase* self);
+    const gchar* (*get_name)(TcamPropertyBase* self);
+    const gchar* (*get_display_name)(TcamPropertyBase* self);
+    const gchar* (*get_description)(TcamPropertyBase* self);
+    const gchar* (*get_category)(TcamPropertyBase* self);
 
-    TcamPropertyVisibility (*get_visibility)(TcamPropBase* self);
+    TcamPropertyVisibility (*get_visibility)(TcamPropertyBase* self);
 
-    TcamPropertyType (*get_prop_type)(TcamPropBase* self);
+    TcamPropertyType (*get_property_type)(TcamPropertyBase* self);
 
-    gboolean (*is_available)(TcamPropBase* self, GError** err );
-    gboolean (*is_locked)(TcamPropBase* self, GError** err);
+    gboolean (*is_available)(TcamPropertyBase* self, GError** err );
+    gboolean (*is_locked)(TcamPropertyBase* self, GError** err);
+
+    gpointer    padding[12];
 };
 
-#define TCAM_TYPE_PROPBOOLEAN tcam_prop_boolean_get_type()
-G_DECLARE_INTERFACE( TcamPropBoolean, tcam_prop_boolean, TCAM, PROPBOOLEAN, TcamPropBase )
+#define TCAM_TYPE_PROPERTY_BOOLEAN tcam_property_boolean_get_type()
+G_DECLARE_INTERFACE( TcamPropertyBoolean, tcam_property_boolean, TCAM, PROPERTY_BOOLEAN, TcamPropertyBase )
 
-struct _TcamPropBooleanInterface
+struct _TcamPropertyBooleanInterface
 {
     GTypeInterface parent_interface;
 
-    gboolean    (*get_value)(TcamPropBoolean* self, GError** err);
-    void        (*set_value)(TcamPropBoolean* self, gboolean value, GError** err);
+    gboolean    (*get_value)(TcamPropertyBoolean* self, GError** err);
+    void        (*set_value)(TcamPropertyBoolean* self, gboolean value, GError** err);
 
-    gboolean    (*get_default)(TcamPropBoolean* self, GError** err);
-};
+    gboolean    (*get_default)(TcamPropertyBoolean* self, GError** err);
 
-
-#define TCAM_TYPE_PROPINTEGER tcam_prop_integer_get_type()
-G_DECLARE_INTERFACE( TcamPropInteger, tcam_prop_integer, TCAM, PROPINTEGER, TcamPropBase )
-
-struct _TcamPropIntegerInterface
-{
-    GTypeInterface parent_interface;
-
-    gint64      (*get_value)(TcamPropInteger* self, GError** err);
-    void        (*set_value)(TcamPropInteger* self, gint64 value, GError** err);
-
-    void        (*get_range)(TcamPropInteger* self, gint64* min_value, gint64* max_value, gint64* default_value, gint64* step_value, GError** err);
-
-    const gchar* (*get_unit)(TcamPropInteger* self);
-    TcamPropertyIntRepresentation   (*get_representation)(TcamPropInteger* self );
+    gpointer    padding[3];
 };
 
 
-#define TCAM_TYPE_PROPFLOAT tcam_prop_float_get_type()
-G_DECLARE_INTERFACE( TcamPropFloat, tcam_prop_float, TCAM, PROPFLOAT, TcamPropBase )
+#define TCAM_TYPE_PROPERTY_INTEGER tcam_property_integer_get_type()
+G_DECLARE_INTERFACE( TcamPropertyInteger, tcam_property_integer, TCAM, PROPERTY_INTEGER, TcamPropertyBase )
 
-struct _TcamPropFloatInterface
+struct _TcamPropertyIntegerInterface
 {
     GTypeInterface parent_interface;
 
-    gdouble     (*get_value)(TcamPropFloat* self, GError** err);
-    void        (*set_value)(TcamPropFloat* self, gdouble value, GError** err);
+    gint64      (*get_value)(TcamPropertyInteger* self, GError** err);
+    void        (*set_value)(TcamPropertyInteger* self, gint64 value, GError** err);
 
-    void        (*get_range)(TcamPropFloat* self, gdouble* min_value, gdouble* max_value, gdouble* default_value, gdouble* step_value, GError** err);
-    const gchar* (*get_unit)(TcamPropFloat* self);
-    TcamPropertyFloatRepresentation( *get_representation )(TcamPropFloat* self);
+    void        (*get_range)(TcamPropertyInteger* self, gint64* min_value, gint64* max_value, gint64* step_value, GError** err);
+    gint64      (*get_default)(TcamPropertyInteger* self, GError** err);
+
+
+    const gchar* (*get_unit)(TcamPropertyInteger* self);
+    TcamPropertyIntRepresentation   (*get_representation)(TcamPropertyInteger* self );
+
+    gpointer    padding[3];
 };
 
-#define TCAM_TYPE_PROPENUMERATION tcam_prop_enumeration_get_type()
-G_DECLARE_INTERFACE( TcamPropEnumeration, tcam_prop_enumeration, TCAM, PROPENUMERATION, TcamPropBase )
 
-struct _TcamPropEnumerationInterface
+#define TCAM_TYPE_PROPERTY_FLOAT tcam_property_float_get_type()
+G_DECLARE_INTERFACE( TcamPropertyFloat, tcam_property_float, TCAM, PROPERTY_FLOAT, TcamPropertyBase )
+
+struct _TcamPropertyFloatInterface
 {
     GTypeInterface parent_interface;
 
-    char*       (*get_value)(TcamPropEnumeration* self, GError** err);
-    void        (*set_value)(TcamPropEnumeration* self, const char* value, GError** err);
+    gdouble     (*get_value)(TcamPropertyFloat* self, GError** err);
+    void        (*set_value)(TcamPropertyFloat* self, gdouble value, GError** err);
 
-    GSList*     (*get_enum_entries)(TcamPropEnumeration* self, GError** err );
-    const char* (*get_default)(TcamPropEnumeration* self, GError** err);
+    void        (*get_range)(TcamPropertyFloat* self, gdouble* min_value, gdouble* max_value, gdouble* step_value, GError** err);
+    gdouble     (*get_default)(TcamPropertyFloat* self, GError** err);
+
+    const gchar* (*get_unit)(TcamPropertyFloat* self);
+    TcamPropertyFloatRepresentation( *get_representation )(TcamPropertyFloat* self);
+
+    gpointer    padding[6];
 };
 
-#define TCAM_TYPE_PROPCOMMAND tcam_prop_command_get_type()
-G_DECLARE_INTERFACE( TcamPropCommand, tcam_prop_command, TCAM, PROPCOMMAND, TcamPropBase )
+#define TCAM_TYPE_PROPERTY_ENUMERATION tcam_property_enumeration_get_type()
+G_DECLARE_INTERFACE( TcamPropertyEnumeration, tcam_property_enumeration, TCAM, PROPERTY_ENUMERATION, TcamPropertyBase )
 
-struct _TcamPropCommandInterface
+struct _TcamPropertyEnumerationInterface
 {
     GTypeInterface parent_interface;
 
-    void        (*execute_command)(TcamPropCommand* self, GError** err);
+    char*       (*get_value)(TcamPropertyEnumeration* self, GError** err);
+    void        (*set_value)(TcamPropertyEnumeration* self, const char* value, GError** err);
+
+    GSList*     (*get_enum_entries)(TcamPropertyEnumeration* self, GError** err );
+    char*       (*get_default)(TcamPropertyEnumeration* self, GError** err);
+
+    gpointer    padding[6];
 };
 
-#define TCAM_TYPE_PROPPROVIDER tcam_prop_provider_get_type()
-G_DECLARE_INTERFACE( TcamPropProvider, tcam_prop_provider, TCAM, PROPPROVIDER, GObject )
+#define TCAM_TYPE_PROPERTY_COMMAND tcam_property_command_get_type()
+G_DECLARE_INTERFACE( TcamPropertyCommand, tcam_property_command, TCAM, PROPERTY_COMMAND, TcamPropertyBase )
 
-struct _TcamPropProviderInterface
+struct _TcamPropertyCommandInterface
 {
     GTypeInterface parent_interface;
 
-    GSList*         (*get_tcam_property_names) (TcamPropProvider* self, GError** err);
-    TcamPropBase*   (*get_tcam_property)(TcamPropProvider* self, const char* name, GError** err);
+    void        (*set_command)(TcamPropertyCommand* self, GError** err);
+
+    gpointer    padding[3];
+};
+
+#define TCAM_TYPE_PROPERTY_PROVIDER tcam_property_provider_get_type()
+G_DECLARE_INTERFACE( TcamPropertyProvider, tcam_property_provider, TCAM, PROPERTY_PROVIDER, GObject )
+
+struct _TcamPropertyProviderInterface
+{
+    GTypeInterface parent_interface;
+
+    GSList*             (*get_tcam_property_names) (TcamPropertyProvider* self, GError** err);
+    TcamPropertyBase*   (*get_tcam_property)(TcamPropertyProvider* self, const char* name, GError** err);
+
+    gpointer    padding[12];
 };
 
 G_END_DECLS
