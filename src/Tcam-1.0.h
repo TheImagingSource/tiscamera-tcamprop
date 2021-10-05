@@ -179,7 +179,18 @@ struct _TcamPropertyProviderInterface
     GTypeInterface parent_interface;
 
     GSList*             (*get_tcam_property_names) (TcamPropertyProvider* self, GError** err);
-    TcamPropertyBase*   (*get_tcam_property)(TcamPropertyProvider* self, const char* name, GError** err);
+    TcamPropertyBase*   (*get_tcam_property)(TcamPropertyProvider* self, const gchar* name, GError** err);
+
+    void        (*set_tcam_boolean)(TcamPropertyProvider* self, const gchar* name, gboolean value, GError** err);
+    void        (*set_tcam_integer)(TcamPropertyProvider* self, const gchar* name, gint64 value, GError** err);
+    void        (*set_tcam_float)(TcamPropertyProvider* self, const gchar* name, gdouble value, GError** err);
+    void        (*set_tcam_enumeration)(TcamPropertyProvider* self, const gchar* name, const gchar* value, GError** err);
+    void        (*set_tcam_command)(TcamPropertyProvider* self, const gchar* name, GError** err);
+
+    gboolean    (*get_tcam_boolean)(TcamPropertyProvider* self, const gchar* name, GError** err);
+    gint64      (*get_tcam_integer)(TcamPropertyProvider* self, const gchar* name, GError** err);
+    gdouble     (*get_tcam_float)(TcamPropertyProvider* self, const gchar* name, GError** err);
+    char*       (*get_tcam_enumeration)(TcamPropertyProvider* self, const gchar* name, GError** err);
 
     gpointer    padding[12];
 };

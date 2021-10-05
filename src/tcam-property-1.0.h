@@ -66,6 +66,17 @@ void            tcam_property_command_set_command( TcamPropertyCommand* self, GE
 GSList*             tcam_property_provider_get_tcam_property_names( TcamPropertyProvider* self, GError** err );
 TcamPropertyBase*   tcam_property_provider_get_tcam_property( TcamPropertyProvider* self, const gchar* name, GError** err );
 
+void        tcam_property_provider_set_tcam_boolean( TcamPropertyProvider* self, const gchar* name, gboolean value, GError** err );
+void        tcam_property_provider_set_tcam_integer( TcamPropertyProvider* self, const gchar* name, gint64 value, GError** err );
+void        tcam_property_provider_set_tcam_float( TcamPropertyProvider* self, const gchar* name, gdouble value, GError** err );
+void        tcam_property_provider_set_tcam_enumeration( TcamPropertyProvider* self, const gchar* name, const gchar* value, GError** err );
+void        tcam_property_provider_set_tcam_command( TcamPropertyProvider* self, const gchar* name, GError** err );
+
+gboolean    tcam_property_provider_get_tcam_boolean( TcamPropertyProvider* self, const gchar* name, GError** err );
+gint64      tcam_property_provider_get_tcam_integer( TcamPropertyProvider* self, const gchar* name, GError** err );
+gdouble     tcam_property_provider_get_tcam_float( TcamPropertyProvider* self, const gchar* name, GError** err );
+gchar*      tcam_property_provider_get_tcam_enumeration( TcamPropertyProvider* self, const gchar* name, GError** err );
+
 G_END_DECLS
 
 #endif /* TCAMPROP_1_0_IMPL_H */

@@ -736,3 +736,194 @@ TcamPropertyBase* tcam_property_provider_get_tcam_property( TcamPropertyProvider
     }
     return NULL;
 }
+
+/**
+ * tcam_property_provider_set_tcam_boolean:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property on which the value should be set
+ * @value: New value for the property
+ * @err: return location for a GError, or NULL
+ */
+void        tcam_property_provider_set_tcam_boolean( TcamPropertyProvider* self, const gchar* name, gboolean value, GError** err )
+{
+    g_return_if_fail( self != NULL );
+    g_return_if_fail( name != NULL );
+    g_return_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ) );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->set_tcam_boolean )
+    {
+        iface->set_tcam_boolean( self, name, value, err );
+    }
+}
+
+/**
+ * tcam_property_provider_set_tcam_integer:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property on which the value should be set
+ * @value: New value for the property
+ * @err: return location for a GError, or NULL
+ */
+void        tcam_property_provider_set_tcam_integer( TcamPropertyProvider* self, const gchar* name, gint64 value, GError** err )
+{
+    g_return_if_fail( self != NULL );
+    g_return_if_fail( name != NULL );
+    g_return_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ) );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->set_tcam_integer )
+    {
+        iface->set_tcam_integer( self, name, value, err );
+    }
+}
+
+/**
+ * tcam_property_provider_set_tcam_float:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property on which the value should be set
+ * @value: New value for the property
+ * @err: return location for a GError, or NULL
+ */
+void        tcam_property_provider_set_tcam_float( TcamPropertyProvider* self, const gchar* name, gdouble value, GError** err )
+{
+    g_return_if_fail( self != NULL );
+    g_return_if_fail( name != NULL );
+    g_return_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ) );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->set_tcam_float )
+    {
+        iface->set_tcam_float( self, name, value, err );
+    }
+}
+
+/**
+ * tcam_property_provider_set_tcam_enumeration:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property on which the value should be set
+ * @value: (not nullable): New value for the property
+ * @err: return location for a GError, or NULL
+ */
+void        tcam_property_provider_set_tcam_enumeration( TcamPropertyProvider* self, const gchar* name, const gchar* value, GError** err )
+{
+    g_return_if_fail( self != NULL );
+    g_return_if_fail( name != NULL );
+    g_return_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ) );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->set_tcam_enumeration )
+    {
+        iface->set_tcam_enumeration( self, name, value, err );
+    }
+}
+
+/**
+ * tcam_property_provider_set_tcam_command:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property on where set_command should be called
+ * @err: return location for a GError, or NULL
+ */
+void        tcam_property_provider_set_tcam_command( TcamPropertyProvider* self, const gchar* name, GError** err )
+{
+    g_return_if_fail( self != NULL );
+    g_return_if_fail( name != NULL );
+    g_return_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ) );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->set_tcam_command )
+    {
+        iface->set_tcam_command( self, name, err );
+    }
+}
+
+/**
+ * tcam_property_provider_get_tcam_boolean:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property whose value will be returned.
+ * @err: return location for a GError, or NULL
+ *
+ * Returns: Returns the value of the property.
+ */
+gboolean    tcam_property_provider_get_tcam_boolean( TcamPropertyProvider* self, const gchar* name, GError** err )
+{
+    gboolean rval = FALSE;
+    g_return_val_if_fail( self != NULL, rval );
+    g_return_val_if_fail( name != NULL, rval );
+    g_return_val_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ), rval );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->get_tcam_boolean )
+    {
+        rval = iface->get_tcam_boolean( self, name, err );
+    }
+    return rval;
+}
+
+/**
+ * tcam_property_provider_get_tcam_integer:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property whose value will be returned.
+ * @err: return location for a GError, or NULL
+ *
+ * Returns: Returns the value of the property.
+ */
+gint64      tcam_property_provider_get_tcam_integer( TcamPropertyProvider* self, const gchar* name, GError** err )
+{
+    gint64 rval = 0;
+    g_return_val_if_fail( self != NULL, rval );
+    g_return_val_if_fail( name != NULL, rval );
+    g_return_val_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ), rval );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->get_tcam_integer )
+    {
+        rval = iface->get_tcam_integer( self, name, err );
+    }
+    return rval;
+}
+
+/**
+ * tcam_property_provider_get_tcam_float:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property whose value will be returned.
+ * @err: return location for a GError, or NULL
+ *
+ * Returns: Returns the value of the property.
+ */
+gdouble     tcam_property_provider_get_tcam_float( TcamPropertyProvider* self, const gchar* name, GError** err )
+{
+    gdouble rval = FALSE;
+    g_return_val_if_fail( self != NULL, rval );
+    g_return_val_if_fail( name != NULL, rval );
+    g_return_val_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ), rval );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->get_tcam_float )
+    {
+        rval = iface->get_tcam_float( self, name, err );
+    }
+    return rval;
+}
+
+/**
+ * tcam_property_provider_get_tcam_enumeration:
+ * @self: a #TcamPropertyProvider
+ * @name: (not nullable): name of the property whose value will be returned.
+ * @err: return location for a GError, or NULL
+ *
+ * Returns: (transfer full)(type utf8): The current value of the property
+ */
+gchar* tcam_property_provider_get_tcam_enumeration( TcamPropertyProvider* self, const gchar* name, GError** err )
+{
+    gchar* rval = FALSE;
+    g_return_val_if_fail( self != NULL, rval );
+    g_return_val_if_fail( name != NULL, rval );
+    g_return_val_if_fail( TCAM_IS_PROPERTY_PROVIDER( self ), rval );
+
+    TcamPropertyProviderInterface* iface = TCAM_PROPERTY_PROVIDER_GET_IFACE( self );
+    if( iface->get_tcam_enumeration )
+    {
+        rval = iface->get_tcam_enumeration( self, name, err );
+    }
+    return rval;
+}
