@@ -43,6 +43,7 @@ typedef enum {
     TCAM_PROPERTY_TYPE_FLOAT        = 2,
     TCAM_PROPERTY_TYPE_ENUMERATION  = 3,
     TCAM_PROPERTY_TYPE_COMMAND      = 4,
+    TCAM_PROPERTY_TYPE_STRING       = 5,
 } TcamPropertyType;
 
 typedef enum {
@@ -51,6 +52,13 @@ typedef enum {
     TCAM_PROPERTY_VISIBILITY_GURU = 2,
     TCAM_PROPERTY_VISIBILITY_INVISIBLE = 3,
 } TcamPropertyVisibility;
+
+typedef enum
+{
+    TCAM_PROPERTY_ACCESS_RW = 0,
+    TCAM_PROPERTY_ACCESS_RO = 1,
+    TCAM_PROPERTY_ACCESS_WO = 2,
+} TcamPropertyAccess;
 
 typedef enum  {
     TCAM_PROPERTY_INTREPRESENTATION_LINEAR = 0,
@@ -84,7 +92,9 @@ struct _TcamPropertyBaseInterface
     gboolean (*is_available)(TcamPropertyBase* self, GError** err );
     gboolean (*is_locked)(TcamPropertyBase* self, GError** err);
 
-    gpointer    padding[12];
+    TcamPropertyAccess (*get_access)(TcamPropertyBase* self);
+    
+    gpointer    padding[11];
 };
 
 #define TCAM_TYPE_PROPERTY_BOOLEAN tcam_property_boolean_get_type()
@@ -167,6 +177,19 @@ struct _TcamPropertyCommandInterface
     GTypeInterface parent_interface;
 
     void        (*set_command)(TcamPropertyCommand* self, GError** err);
+
+    gpointer    padding[3];
+};
+
+#define TCAM_TYPE_PROPERTY_STRING tcam_property_string_get_type()
+G_DECLARE_INTERFACE( TcamPropertyString, tcam_property_string, TCAM, PROPERTY_STRING, TcamPropertyBase )
+
+struct _TcamPropertyStringInterface
+{
+    GTypeInterface parent_interface;
+
+    char*       (*get_value)(TcamPropertyString* self, GError** err);
+    void        (*set_value)(TcamPropertyString* self, const char* value, GError** err);
 
     gpointer    padding[3];
 };
