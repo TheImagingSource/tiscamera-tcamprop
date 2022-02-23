@@ -26,6 +26,7 @@ build/
 nbproject
 .vs/
 /out
+/CMakeSettings.json
 
 # kdevelop
 
